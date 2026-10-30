@@ -10,18 +10,31 @@ jobs:
   run-notify:
     runs-on: ubuntu-latest
     steps:
-      - name: Chạy trình duyệt ảo truy cập notify.php
+      - name: Cài đặt Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Cài đặt Playwright & Chromium
         run: |
-          npx -y playwright install --with-deps chromium
+          npm install playwright
+          npx playwright install --with-deps chromium
+
+      - name: Mở trình duyệt ảo truy cập notify.php
+        run: |
           node -e '
             const { chromium } = require("playwright");
             (async () => {
               const browser = await chromium.launch();
               const page = await browser.newPage();
               console.log("Đang truy cập notify.php...");
-              await page.goto("https://vf3bmtadmin.free.nf/notify.php", { waitUntil: "networkidle", timeout: 60000 });
+              const response = await page.goto("https://vf3bmtadmin.free.nf/notify.php", { 
+                waitUntil: "networkidle", 
+                timeout: 60000 
+              });
+              console.log("Mã HTTP:", response ? response.status() : "N/A");
               const content = await page.textContent("body");
-              console.log("Kết quả từ server:\n", content);
+              console.log("Kết quả từ server:\n" + content);
               await browser.close();
             })();
           '
