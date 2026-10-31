@@ -4,17 +4,12 @@ on:
   schedule:
     # Chạy mỗi 30 phút một lần
     - cron: '*/30 * * * *'
-  workflow_dispatch: # Bấm chạy thử thủ công bất cứ lúc nào
+  workflow_dispatch: # Cho phép bấm chạy thử thủ công bất cứ lúc nào
 
 jobs:
   run-notify:
     runs-on: ubuntu-latest
     steps:
-      - name: Cài đặt Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-
       - name: Cài đặt Playwright & Chromium
         run: |
           npm install playwright
