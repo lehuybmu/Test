@@ -2,9 +2,9 @@ name: Auto Notify Cron Job
 
 on:
   schedule:
-    # Chạy mỗi 30 phút một lần (hoặc đổi '*/15 * * * *' cho 15 phút)
+    # Chạy mỗi 30 phút một lần
     - cron: '*/30 * * * *'
-  workflow_dispatch: # Cho phép bấm chạy thử thủ công bất cứ lúc nào
+  workflow_dispatch: # Bấm chạy thử thủ công bất cứ lúc nào
 
 jobs:
   run-notify:
@@ -13,7 +13,7 @@ jobs:
       - name: Cài đặt Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
 
       - name: Cài đặt Playwright & Chromium
         run: |
